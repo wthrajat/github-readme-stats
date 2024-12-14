@@ -1,0 +1,29 @@
+.vercel
+.idea/
+benchmarks
+vercel_token
+grs-server
+/server
+
+# Go build outputs
+*.exe
+*.test
+*.out
+/bin/
+/dist/
+
+# Go module cache (do not commit)
+/vendor/
+
+# Test coverage
+coverage.out
+coverage.html
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.code-workspace
+
+# Env with secrets (sample committed as .env.example if needed)
+.env
