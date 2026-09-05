@@ -13,18 +13,18 @@ Stats, languages, pinned repos, gists, and coding time. One small server, no Nod
 
 ## Usage
 
-Add these to your README and replace the username.
+Deploy your own instance first, then add these to your README. Replace `YOUR_INSTANCE` with your deployment URL, for example `https://your-app.vercel.app`.
 
 ```md
-![GitHub Stats](https://rajat-grs.vercel.app/api?username=wthrajat)
+![GitHub Stats](https://YOUR_INSTANCE/api?username=YOUR_USERNAME)
 
-![Top Languages](https://rajat-grs.vercel.app/api/top-langs?username=wthrajat)
+![Top Languages](https://YOUR_INSTANCE/api/top-langs?username=YOUR_USERNAME)
 
-![Repo Card](https://rajat-grs.vercel.app/api/pin?username=wthrajat&repo=github-readme-stats)
+![Repo Card](https://YOUR_INSTANCE/api/pin?username=YOUR_USERNAME&repo=github-readme-stats)
 
-![Gist Card](https://rajat-grs.vercel.app/api/gist?id=GIST_ID)
+![Gist Card](https://YOUR_INSTANCE/api/gist?id=YOUR_GIST_ID)
 
-![WakaTime](https://rajat-grs.vercel.app/api/wakatime?username=YOUR_WAKATIME_USER)
+![WakaTime](https://YOUR_INSTANCE/api/wakatime?username=YOUR_WAKATIME_USER)
 ```
 
 ## Cards
