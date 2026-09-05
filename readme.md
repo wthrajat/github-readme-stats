@@ -1,104 +1,82 @@
 # GitHub Readme Stats (Go)
 
-```sh
-cp .env.example .env   # add PAT_1, ...
-go run ./cmd/server    # listens on :9000
-```
+A pure Go rewrite of [Anurag's GitHub Readme Stats](https://github.com/anuraghazra/github-readme-stats). It turns your GitHub profile into clean SVG cards that you can drop into any README.
 
-**Endpoints:** `GET /api` (stats), `/api/pin` (repo), `/api/top-langs` (languages), `/api/wakatime`, `/api/gist`, `/api/status/up`, `/api/status/pat-info`
-Legacy paths `/pin`, `/top-langs`, `/wakatime`, `/gist` also work.
+![Go](https://img.shields.io/badge/Go-1.27-00ADD8?logo=go&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Tests](https://img.shields.io/badge/Tests-passing-brightgreen)
+![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)
+![Themes](https://img.shields.io/badge/Themes-81-orange)
+![Languages](https://img.shields.io/badge/Locales-29-purple)
 
-`make build|test|docker|theme-doc|langs-json`
+Stats, languages, pinned repos, gists, and coding time. One small server, no Node, no JavaScript.
 
----
+## Usage
 
-## Quick Start
+Add these to your README and replace the username.
 
 ```md
-![GitHub Stats](https://YOUR_DOMAIN/api?username=wthrajat)
-![Top Languages](https://YOUR_DOMAIN/api/top-langs?username=wthrajat)
-![Repo Card](https://YOUR_DOMAIN/api/pin?username=wthrajat&repo=github-readme-stats)
-![Gist Card](https://YOUR_DOMAIN/api/gist?id=GIST_ID)
-![WakaTime](https://YOUR_DOMAIN/api/wakatime?username=YOUR_WAKATIME_USER)
+![GitHub Stats](https://rajat-grs.vercel.app/api?username=wthrajat)
+
+![Top Languages](https://rajat-grs.vercel.app/api/top-langs?username=wthrajat)
+
+![Repo Card](https://rajat-grs.vercel.app/api/pin?username=wthrajat&repo=github-readme-stats)
+
+![Gist Card](https://rajat-grs.vercel.app/api/gist?id=GIST_ID)
+
+![WakaTime](https://rajat-grs.vercel.app/api/wakatime?username=YOUR_WAKATIME_USER)
 ```
 
----
+## Cards
 
-## Cards & Key Options
+| Card | Endpoint |
+| ---- | -------- |
+| Stats | `/api?username=` |
+| Top Languages | `/api/top-langs?username=` |
+| Pinned Repo | `/api/pin?username=&repo=` |
+| Gist | `/api/gist?id=` |
+| WakaTime | `/api/wakatime?username=` |
 
-| Card | Endpoint | Key Options |
-|------|----------|-------------|
-| **Stats** | `/api` | `hide`, `show`, `show_icons`, `hide_rank`, `rank_icon`, `include_all_commits`, `theme`, `custom_title`, `locale`, `number_format`, `lowercase` |
-| **Repo** | `/api/pin` | `show_owner`, `description_lines_count` |
-| **Gist** | `/api/gist` | `show_owner` |
-| **Languages** | `/api/top-langs` | `layout` (normal\|compact\|donut\|donut-vertical\|pie), `langs_count`, `hide`, `hide_progress`, `size_weight`, `count_weight`, `exclude_repo` |
-| **WakaTime** | `/api/wakatime` | `layout` (default\|compact), `langs_count`, `hide`, `hide_progress`, `display_format` (time\|percent), `api_domain` |
+## Options
 
-### Common Options (all cards)
-`title_color`, `text_color`, `icon_color`, `bg_color` (hex or `DEG,C1,C2...` gradient), `border_color`, `hide_border`, `theme`, `border_radius`, `cache_seconds`, `disable_animations`
+Every card accepts these.
 
-### Themes
-81 built-in: `default`, `dark`, `radical`, `gruvbox`, `tokyonight`, `dracula`, `nord`, `github_dark`, `catppuccin_mocha`, `rose_pine`, `transparent`, ...  
-Full list & preview: [themes/README.md](themes/README.md) • Config: [internal/themes/themes.go](internal/themes/themes.go)
+| Option | What it does |
+| ------ | ------------ |
+| `theme` | Picks one of the [81 themes](themes/README.md) |
+| `title_color` | Color of the title |
+| `text_color` | Color of the text |
+| `bg_color` | Background color, gradients work too |
+| `hide_border` | Removes the card border |
+| `locale` | Card language, try `locale=es` |
+| `cache_seconds` | How long the card is cached |
 
-### Dynamic Themes (GitHub light/dark)
-- `theme=transparent` — works on both
-- `#gh-dark-mode-only` / `#gh-light-mode-only` URL fragments
-- `<picture>` with `prefers-color-scheme` media queries
+Cards also have their own extras. Stats supports `hide`, `show_icons`, `hide_rank`, and `include_all_commits`. Languages supports `layout` with `compact`, `donut`, and `pie`, plus `langs_count` and `hide`. WakaTime supports `layout=compact` and `hide_progress`.
 
-### Locales
-29 supported: `en`, `cn`, `zh-tw`, `de`, `es`, `fr`, `ja`, `kr`, `ru`, `pt-br`, `it`, `pl`, `tr`, `nl`, `hu`, `vi`, `id`, `se`, `uk-ua`, `cs`, `sk`, `np`, `bn`, `ml`, `my`, `el`, `ar`, `uz`  
-Pass `locale=CODE` (e.g. `locale=es`).
+## Deploy on Vercel
 
----
+1. Fork this repo
+2. Import it on [Vercel](https://vercel.com/new)
+3. Add your GitHub token as `PAT_1` in the environment variables
+4. Deploy
 
-## Rank Algorithm
+## Run it yourself
 
-Based on [Japanese academic grading](https://wikipedia.org/wiki/Academic_grading_in_Japan): S (top 1%), A+, A, A-, B+, B, B-, C+, C.  
-Percentile = weighted CDF of commits, PRs, reviews, issues, stars, followers (exponential + log-normal).  
-Circle = 100 − percentile.  
-Implementation: [internal/rank/rank.go](internal/rank/rank.go)
-
----
-
-## Language Stats Algorithm
-
-`rank = (bytes ^ size_weight) × (repos ^ count_weight)`  
-Defaults: `size_weight=1`, `count_weight=0` (bytes only).  
-Recommended: `size_weight=0.5&count_weight=0.5`.
-
----
-
-## Deploy
-
-### Vercel (native Go)
-1. Fork → Import in Vercel
-2. Add `PAT_1` (GitHub token with `repo` + `user` scopes) in Project → Settings → Environment Variables
-3. Deploy — `vercel.json` sets Go preset automatically
-
-### Docker
 ```sh
-cp .env.example .env
-docker build -t github-readme-stats .
-docker run -p 9000:9000 --env-file .env github-readme-stats
+cp .env.example .env   # add your token
+docker build -t grs .
+docker run -p 9000:9000 --env-file .env grs
 ```
 
-### Go (anywhere)
+Or with Go installed:
+
 ```sh
-cp .env.example .env
+cp .env.example .env   # add your token
 go run ./cmd/server
 ```
 
-### Private Instance
-Set `GRS_TOKEN` + optional `ALLOWED_USERNAMES` (comma-separated). Requests need `?token=...` or `x-grs-token` header.
+The server listens on port 9000. See [.env.example](.env.example) for all settings, including making your instance private with `GRS_TOKEN`.
 
-### Env Vars
-See [.env.example](.env.example): `PAT_1`, `CACHE_SECONDS`, `GRS_TOKEN`, `ALLOWED_USERNAMES`, `FETCH_MULTI_PAGE_STARS`, `PORT`
+## Credits
 
----
-
-- Made with Go ❤️
-- Idea inspiration from Anurag's [GRS](https://github.com/anuraghazra/github-readme-stats)
-- SVG cards served by a single `net/http` binary. No Node, no JavaScript/TypeScript which is the bessssttttt
-
----
+Built with Go. Idea inspired by [Anurag Hazra](https://github.com/anuraghazra)'s [github-readme-stats](https://github.com/anuraghazra/github-readme-stats).
