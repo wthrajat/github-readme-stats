@@ -1,6 +1,6 @@
 # GitHub Readme Stats (Go)
 
-A pure Go rewrite of [Anurag's GitHub Readme Stats](https://github.com/anuraghazra/github-readme-stats). It turns your GitHub profile into clean SVG cards that you can drop into any README.
+Turn your GH profile into clean SVG cards that you can drop into any README.
 
 ![Go](https://img.shields.io/badge/Go-1.27-00ADD8?logo=go&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-blue)
@@ -74,9 +74,4 @@ Or with Go installed:
 cp .env.example .env   # add your token
 go run ./cmd/server
 ```
-
-The server listens on port 9000. See [.env.example](.env.example) for all settings, including making your instance private with `GRS_TOKEN`.
-
-## Credits
-
-Built with Go. Idea inspired by [Anurag Hazra](https://github.com/anuraghazra)'s [github-readme-stats](https://github.com/anuraghazra/github-readme-stats).
+- Idea inspired by [github-readme-stats](https://github.com/anuraghazra/github-readme-stats).
