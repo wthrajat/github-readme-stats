@@ -1,11 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "go",
-  "functions": {
-    "api/index.go": {
-      "memory": 128,
-      "maxDuration": 10
-    }
-  },
-  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
+  "buildCommand": "go build -o server ./cmd/server"
 }
